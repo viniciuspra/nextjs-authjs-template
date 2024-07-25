@@ -14,8 +14,8 @@ export function Header() {
           <HeaderNav />
         </div>
         <div className="flex flex-1 items-center justify-between space-x-4 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none pl-4 md:pl-0">
-            <div className="border border-ring/10 hover:bg-accent hover:text-accent-foreground relative h-8 w-full rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64">
+          <div className="pl-4 md:pl-0 flex flex-1 justify-end">
+            <div className="border border-ring/10 hover:bg-accent hover:text-accent-foreground relative h-8 rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 lg:w-60 w-40">
               <input
                 type="text"
                 className="w-full h-full absolute bg-transparent px-3 rounded-[0.5rem]"
