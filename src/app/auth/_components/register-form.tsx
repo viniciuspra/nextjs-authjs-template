@@ -1,14 +1,15 @@
 "use client";
 import { useState, useTransition } from "react";
-import Image from "next/image";
+
+import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/schemas/auth";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { FormError } from "@/app/auth/_components/form-error";
 import { FormSuccess } from "@/app/auth/_components/form-success";
+import { Social } from "@/app/auth/_components/social";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,7 +39,7 @@ export function RegisterForm() {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
     },
@@ -62,7 +63,6 @@ export function RegisterForm() {
           setMessage({ type: "success", text: response.success });
         }
       });
-      form.reset();
     });
   };
 
@@ -72,7 +72,7 @@ export function RegisterForm() {
         <div className="space-y-1 pb-4">
           <FormField
             control={form.control}
-            name="fullName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Full Name</FormLabel>
@@ -142,19 +142,7 @@ export function RegisterForm() {
           >
             {isPending ? <LoadingSpinner /> : "Register"}
           </Button>
-          <Button
-            disabled={isPending}
-            className="w-full h-10 relative focus-visible:ring-black border flex gap-3 font-bold border-secondary/20 hover:border-secondary/30 hover:shadow transition duration-150"
-          >
-            <Image
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              width={24}
-              height={24}
-              loading="lazy"
-              alt="google logo"
-            />
-            Sign up with Google
-          </Button>
+          <Social />
         </div>
       </form>
     </Form>

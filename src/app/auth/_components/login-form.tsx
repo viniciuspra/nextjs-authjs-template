@@ -1,15 +1,18 @@
 "use client";
 import { useState, useTransition } from "react";
-import Image from "next/image";
+
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schemas/auth";
 import { useForm } from "react-hook-form";
+
+import { LoginSchema } from "@/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { FormError } from "@/app/auth/_components/form-error";
 import { FormSuccess } from "@/app/auth/_components/form-success";
+import { Social } from "@/app/auth/_components/social";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +39,13 @@ export function LoginForm() {
   >(undefined);
   const [isPending, startTransition] = useTransition();
 
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email Already Linked to Another Account!"
+      : "";
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -56,14 +66,14 @@ export function LoginForm() {
     });
     startTransition(() => {
       login(data).then((response) => {
-        if (response.error) {
+        if (response?.error) {
           setMessage({ type: "error", text: response.error });
-        } else if (response.success) {
+        }
+        if (response?.success) {
           setMessage({ type: "success", text: response.success });
         }
       });
     });
-    form.reset();
   };
 
   return (
@@ -120,7 +130,9 @@ export function LoginForm() {
             </Link>
           </div>
         </div>
-        <FormError message={message?.type === "error" ? message.text : ""} />
+        <FormError
+          message={message?.type === "error" ? message.text : urlError ?? ""}
+        />
         <FormSuccess
           message={message?.type === "success" ? message.text : ""}
         />
@@ -133,16 +145,7 @@ export function LoginForm() {
           >
             {isPending ? <LoadingSpinner /> : "Login"}
           </Button>
-          <Button className="w-full h-10 relative focus-visible:ring-black border flex gap-3 font-bold border-secondary/20 hover:border-secondary/30 hover:shadow transition duration-150">
-            <Image
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              width={24}
-              height={24}
-              loading="lazy"
-              alt="google logo"
-            />
-            Sign in with Google
-          </Button>
+          <Social />
         </div>
       </form>
     </Form>
