@@ -24,7 +24,7 @@ export function HeaderNav({ mobile }: NavProps) {
       <Link href="/auth/login" className={LinkStyle}>
         Two factor verification (2FA)
       </Link>
-      <Link href="/auth/login" className={LinkStyle}>
+      <Link href="/auth/forgot-password" className={LinkStyle}>
         Forgot password
       </Link>
       <Link href="api/auth/providers" className={LinkStyle}>

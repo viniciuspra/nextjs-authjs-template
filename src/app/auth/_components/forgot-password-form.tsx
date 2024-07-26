@@ -1,18 +1,14 @@
 "use client";
 import { useState, useTransition } from "react";
 
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-
 import { useForm } from "react-hook-form";
 
-import { LoginSchema } from "@/schemas/auth";
+import { ForgotPasswordSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { FormError } from "@/app/auth/_components/form-error";
 import { FormSuccess } from "@/app/auth/_components/form-success";
-import { Social } from "@/app/auth/_components/social";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,9 +23,9 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
-import { login } from "@/actions/login";
+import { forgotPassword } from "@/actions/forgot-password";
 
-export function LoginForm() {
+export function ForgotPasswordForm() {
   const [message, setMessage] = useState<
     | {
         type: "error" | "success";
@@ -39,22 +35,14 @@ export function LoginForm() {
   >(undefined);
   const [isPending, startTransition] = useTransition();
 
-  const searchParams = useSearchParams();
-
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email Already Linked to Another Account!"
-      : "";
-
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (data: z.infer<typeof ForgotPasswordSchema>) => {
     setMessage(undefined);
     toast({
       title: "You submitted the following values:",
@@ -65,7 +53,7 @@ export function LoginForm() {
       ),
     });
     startTransition(() => {
-      login(data).then((response) => {
+      forgotPassword(data).then((response) => {
         if (response?.error) {
           setMessage({ type: "error", text: response.error });
         }
@@ -101,57 +89,19 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <div>
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="••••••"
-                    type="password"
-                    disabled={isPending}
-                    className="h-11 disabled:cursor-wait"
-                    {...field}
-                  />
-                </FormControl>
-                <div className="flex justify-end">
-                  <FormMessage className="w-full text-start" />
-                  <Button
-                    className="pt-0.5 text-blue-500 h-fit p-px font-semibold"
-                    variant={"link"}
-                  >
-                    <Link
-                      href="/auth/forgot-password"
-                      className="w-full h-full"
-                    >
-                      Forgot Password?
-                    </Link>
-                  </Button>
-                </div>
-              </FormItem>
-            )}
-          />
-        </div>
-        <FormError
-          message={message?.type === "error" ? message.text : urlError ?? ""}
-        />
+        <FormError message={message?.type === "error" ? message.text : ""} />
         <FormSuccess
           message={message?.type === "success" ? message.text : ""}
         />
-        <div className="space-y-3">
           <Button
             type="submit"
             disabled={isPending}
             variant={"secondary"}
             className="w-full h-11 disabled:opacity-50 disabled:cursor-wait font-semibold"
           >
-            {isPending ? <LoadingSpinner /> : "Login"}
+            {isPending ? <LoadingSpinner /> : "Send reset email"}
           </Button>
-          <Social />
-        </div>
+     
       </form>
     </Form>
   );
