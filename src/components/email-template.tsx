@@ -3,16 +3,14 @@ import {
   Button,
   Container,
   Head,
-  Heading,
   Html,
-  Img,
   Link,
   Preview,
   Section,
   Text,
 } from "@react-email/components";
 
-export function EmailTemplate(confirmLink: string, name: string) {
+export function EmailTemplate(confirmLink: string, name: string | null) {
   return (
     <Html>
       <Head />
@@ -20,7 +18,7 @@ export function EmailTemplate(confirmLink: string, name: string) {
       <Body style={main}>
         <Container style={container}>
           <Section style={wrap}>
-            <Text style={paragraph}>Hi {name},</Text>
+            <Text style={paragraph}>Hi {name !== null ? name : "👋"},</Text>
             <Text style={paragraph}>
               Thank you for signing up. To complete your registration, please
               verify your email address by <br /> clicking the button below. If
