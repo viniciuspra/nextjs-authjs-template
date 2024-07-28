@@ -1,3 +1,6 @@
+"use client";
+import { useState } from "react";
+
 import Link from "next/link";
 import { LoginForm } from "@/app/auth/_components/login-form";
 import {
@@ -12,6 +15,8 @@ import {
 import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-3 text-primary-foreground p-4">
       <Link
@@ -22,25 +27,34 @@ export default function LoginPage() {
       </Link>
       <Card className="max-w-[450px] w-full max-h-[600px] bg-primary rounded-lg py-4 flex flex-col text-primary-foreground">
         <CardHeader className="py-0 pt-4">
-          <CardTitle className="text-3xl font-bold">Welcome Back 👋</CardTitle>
+          <CardTitle className="text-3xl font-bold">
+            {showTwoFactor ? "Two-Factor Authentication" : "Welcome Back 👋"}
+          </CardTitle>
           <CardDescription className="text-sm opacity-85">
-            Please login to your account!
+            {showTwoFactor
+              ? "Please enter the verification code sent to your email."
+              : "Please login to your account!"}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-1 items-center justify-center">
-          <LoginForm />
+          <LoginForm
+            showTwoFactor={showTwoFactor}
+            setShowTwoFactor={setShowTwoFactor}
+          />
         </CardContent>
-        <CardFooter className="flex justify-center py-0">
-          <p className="text-sm">
-            Don&apos;t have an account?{" "}
-            <a
-              href="/auth/register"
-              className="text-blue-500 font-semibold underline"
-            >
-              Sign Up
-            </a>
-          </p>
-        </CardFooter>
+        {!showTwoFactor && (
+          <CardFooter className="flex justify-center py-0">
+            <p className="text-sm">
+              Don&apos;t have an account?{" "}
+              <a
+                href="/auth/register"
+                className="text-blue-500 font-semibold underline"
+              >
+                Sign Up
+              </a>
+            </p>
+          </CardFooter>
+        )}
       </Card>
     </div>
   );
