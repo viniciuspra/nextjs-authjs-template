@@ -30,7 +30,7 @@ export default function TwoFactorEmailTemplate(verificationCode: string) {
                 <Text style={verifyText}>Verification Code</Text>
                 <Text style={codeText}>{verificationCode}</Text>
                 <Text style={validityText}>
-                  (This code is valid for 15 minutes)
+                  (This code is valid for 5 minutes)
                 </Text>
               </Section>
             </Section>
