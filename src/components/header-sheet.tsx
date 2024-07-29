@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { HeaderNav } from "@/components/header-nav";
 import {
   Sheet,
   SheetContent,
@@ -5,10 +8,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { HeaderNav } from "@/components/header-nav";
 import { useIsMobile } from "@/components/useIsMobile";
 
 import { Eclipse, Menu } from "lucide-react";
+
 export function HeaderSheet() {
   const isMobile = useIsMobile();
 
@@ -18,7 +21,9 @@ export function HeaderSheet() {
         {isMobile ? (
           <Menu className="size-6" />
         ) : (
-          <Eclipse className="size-6" />
+          <Link href="/">
+            <Eclipse className="size-6" />
+          </Link>
         )}
       </SheetTrigger>
       <SheetContent side={"left"} className="p-0">
