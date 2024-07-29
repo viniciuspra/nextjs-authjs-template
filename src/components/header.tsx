@@ -1,7 +1,5 @@
 "use client";
-import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { HeaderSheet } from "@/components/header-sheet";
 import { HeaderNav } from "@/components/header-nav";
 
@@ -26,13 +24,6 @@ export function Header() {
               </kbd>
             </div>
           </div>
-          <nav className="flex items-center gap-3">
-            <Button className="p-0">
-              <Link href="/auth/login" className="w-full h-full px-4 py-2">
-                Sign In
-              </Link>
-            </Button>
-          </nav>
         </div>
       </div>
     </header>
