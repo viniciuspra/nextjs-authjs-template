@@ -68,7 +68,17 @@ export function LoginForm({ showTwoFactor, setShowTwoFactor }: LoginFormProps) {
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          {data.code ? (
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          ) : (
+            <code className="text-white">
+              {JSON.stringify(
+                { email: data.email, password: data.password },
+                null,
+                2
+              )}
+            </code>
+          )}
         </pre>
       ),
     });
