@@ -25,12 +25,12 @@ export function UserButton() {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuContent className="mr-2">
+        <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <LogoutButton>
           <DropdownMenuItem className="cursor-pointer">
-           <LogOut className="size-4 mr-2"/>
+            <LogOut className="size-4 mr-2" />
             Logout
           </DropdownMenuItem>
         </LogoutButton>
