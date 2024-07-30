@@ -6,10 +6,17 @@ import { Button } from "@/components/ui/button";
 
 interface NavProps {
   mobile?: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function HeaderNav({ mobile }: NavProps) {
+export function HeaderNav({ mobile, setOpen }: NavProps) {
   const pathname = usePathname();
+
+  const closeSheet = () => {
+    if (mobile) {
+      setOpen(false);
+    }
+  };
 
   return (
     <nav
@@ -20,6 +27,7 @@ export function HeaderNav({ mobile }: NavProps) {
       <Button
         asChild
         variant={"link"}
+        onClick={closeSheet}
         className={`${
           pathname === "/settings" ? "underline font-semibold" : ""
         } underline-offset-4`}
@@ -29,8 +37,9 @@ export function HeaderNav({ mobile }: NavProps) {
       <Button
         asChild
         variant={"link"}
+        onClick={closeSheet}
         className={`${
-          pathname === "/client" ? "underline" : ""
+          pathname === "/client" ? "underline font-semibold" : ""
         } underline-offset-4`}
       >
         <Link href="/client">Client</Link>
@@ -38,8 +47,9 @@ export function HeaderNav({ mobile }: NavProps) {
       <Button
         asChild
         variant={"link"}
+        onClick={closeSheet}
         className={`${
-          pathname === "/server" ? "underline" : ""
+          pathname === "/server" ? "underline font-semibold" : ""
         } underline-offset-4`}
       >
         <Link href="/server">Server</Link>
@@ -47,8 +57,9 @@ export function HeaderNav({ mobile }: NavProps) {
       <Button
         asChild
         variant={"link"}
+        onClick={closeSheet}
         className={`${
-          pathname === "/admin" ? "underline" : ""
+          pathname === "/admin" ? "underline font-semibold" : ""
         } underline-offset-4`}
       >
         <Link href="/admin">Admin</Link>
