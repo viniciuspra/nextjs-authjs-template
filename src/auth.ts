@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 
 import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { getUserAccountByUserId } from "./data/account";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
@@ -63,6 +64,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
 
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email as string;
+        session.user.isOAuth = token.isOAuth as boolean;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -70,8 +77,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       const existingUser = await getUserById(token.sub);
 
-      token.role = existingUser?.role;
-      token.isTwoFactorEnabled = existingUser?.isTwoFactorEnabled;
+      if (!existingUser) return token;
+
+      const existingAccount = await getUserAccountByUserId(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      token.role = existingUser.role;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },

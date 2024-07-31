@@ -20,7 +20,7 @@ const NewPasswordSchema = z
     }),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Confirm new password do not match",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
@@ -36,8 +36,31 @@ const RegisterSchema = z
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Confirm password do not match",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
-export { LoginSchema, RegisterSchema, ForgotPasswordSchema, NewPasswordSchema };
+const SettingsSchema = z
+  .object({
+    name: z.string().min(1, { message: "Name can't be empty" }),
+    email: z
+      .string()
+      .email({ message: "Email is not valid" })
+      .min(1, { message: "Email can't be empty" }),
+    password: z.optional(z.string()),
+    confirmPassword: z.optional(z.string()),
+    enableTwoFactor: z.boolean().default(false).optional(),
+    changeRole: z.enum(["ADMIN", "USER"]).default("USER").optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords does not match",
+    path: ["confirmPassword"],
+  });
+
+export {
+  LoginSchema,
+  RegisterSchema,
+  ForgotPasswordSchema,
+  NewPasswordSchema,
+  SettingsSchema,
+};
