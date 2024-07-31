@@ -15,7 +15,7 @@ export default async function ProtectedLayout({
 
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen">
+      <div className="min-h-screen mt-16 mb-3 lg:mt-0 lg:mb-0">
         <Header />
         <div className="container mx-auto">
           {children}
