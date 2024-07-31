@@ -24,13 +24,20 @@ const NewPasswordSchema = z
     path: ["confirmPassword"],
   });
 
-// TODO: Add a confirm password field
-const RegisterSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Email is required" }),
-  password: z
-    .string()
-    .min(6, { message: "Password should be at least 6 characters long" }),
-});
+const RegisterSchema = z
+  .object({
+    name: z.string().min(1, { message: "Name is required" }),
+    email: z.string().email({ message: "Email is required" }),
+    password: z
+      .string()
+      .min(6, { message: "Password should be at least 6 characters long" }),
+    confirmPassword: z.string().min(1, {
+      message: "Confirm password is required",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Confirm password do not match",
+    path: ["confirmPassword"],
+  });
 
 export { LoginSchema, RegisterSchema, ForgotPasswordSchema, NewPasswordSchema };

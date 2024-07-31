@@ -25,6 +25,7 @@ import { toast } from "@/components/ui/use-toast";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 import { register } from "@/actions/register";
+import { useRouter } from "next/navigation";
 
 export function RegisterForm() {
   const [message, setMessage] = useState<
@@ -42,8 +43,11 @@ export function RegisterForm() {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
+
+  const router = useRouter();
 
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
     setMessage(undefined);
@@ -56,13 +60,20 @@ export function RegisterForm() {
       ),
     });
     startTransition(() => {
-      register(data).then((response) => {
-        if (response.error) {
-          setMessage({ type: "error", text: response.error });
-        } else if (response.success) {
-          setMessage({ type: "success", text: response.success });
-        }
-      });
+      register(data)
+        .then((response) => {
+          if (response.error) {
+            setMessage({ type: "error", text: response.error });
+          } else if (response.success) {
+            setMessage({ type: "success", text: response.success });
+          }
+        })
+        .finally(() => {
+          form.reset();
+          setTimeout(() => {
+            router.push("/auth/login");
+          }, 3000);
+        });
     });
   };
 
@@ -114,6 +125,25 @@ export function RegisterForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="••••••"
+                    type="password"
+                    disabled={isPending}
+                    className="h-11 disabled:cursor-wait"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="••••••"
