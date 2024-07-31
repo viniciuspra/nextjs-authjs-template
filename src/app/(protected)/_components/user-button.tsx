@@ -21,7 +21,7 @@ export function UserButton() {
         <Avatar className="hover:brightness-75 transition">
           <AvatarImage src={user?.image || ""} alt="avatar" />
           <AvatarFallback className="border-2 ">
-            <User2 />
+            <User2 className="size-5"/>
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
