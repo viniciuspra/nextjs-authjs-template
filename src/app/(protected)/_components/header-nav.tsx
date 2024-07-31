@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 interface NavProps {
   mobile?: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function HeaderNav({ mobile, setOpen }: NavProps) {
@@ -14,7 +14,9 @@ export function HeaderNav({ mobile, setOpen }: NavProps) {
 
   const closeSheet = () => {
     if (mobile) {
-      setOpen(false);
+      if (setOpen) {
+        setOpen(false);
+      }
     }
   };
 

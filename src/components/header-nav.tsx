@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface NavProps {
   mobile?: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function HeaderNav({ mobile, setOpen }: NavProps) {
@@ -11,7 +11,9 @@ export function HeaderNav({ mobile, setOpen }: NavProps) {
     "inline-flex h-8 px-3 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors text-primary underline-offset-4 hover:underline";
   const closeSheet = () => {
     if (mobile) {
-      setOpen(false);
+      if (setOpen) {
+        setOpen(false);
+      }
     }
   };
 
