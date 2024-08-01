@@ -12,7 +12,7 @@ const sendVerificationEmail = async (
   token: string,
   name: string | null
 ) => {
-  const baseUrl = env.APP_BASE_URL;
+  const baseUrl = env.BASE_URL;
   const confirmLink = `${baseUrl}/auth/new-verification?token=${token}`;
 
   try {
@@ -38,7 +38,7 @@ const sendRestPassword = async (
   token: string,
   name: string | null
 ) => {
-  const baseUrl = env.APP_BASE_URL;
+  const baseUrl = env.BASE_URL;
   const resetLink = `${baseUrl}/auth/new-password?token=${token}`;
 
   try {
