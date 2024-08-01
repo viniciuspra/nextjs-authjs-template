@@ -15,7 +15,10 @@ import { generateTwoFactorToken, generateVerificationToken } from "@/lib/token";
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
-export const login = async (data: z.infer<typeof LoginSchema>) => {
+export const login = async (
+  data: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
+) => {
   const validatedFields = LoginSchema.safeParse(data);
 
   if (!validatedFields.success) {
@@ -68,7 +71,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
       await prisma.twoFactorToken.delete({
         where: { id: twoFactorToken.id },
       });
- 
+
       const existingConfirmation = await getTwoFactorConfirmationByUserId(
         existingUser.id
       );
@@ -96,7 +99,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {
