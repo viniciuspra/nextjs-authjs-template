@@ -42,12 +42,18 @@ const RegisterSchema = z
 
 const SettingsSchema = z
   .object({
-    name: z.string().min(1, { message: "Name can't be empty" }),
-    email: z
-      .string()
-      .email({ message: "Email is not valid" })
-      .min(1, { message: "Email can't be empty" }),
-    password: z.optional(z.string()),
+    name: z.optional(z.string().min(1, { message: "Name can't be empty" })),
+    email: z.optional(
+      z
+        .string()
+        .email({ message: "Email is not valid" })
+        .min(1, { message: "Email can't be empty" })
+    ),
+    password: z.optional(
+      z
+        .string()
+        .min(6, { message: "Password should be at least 6 characters long" })
+    ),
     confirmPassword: z.optional(z.string()),
     enableTwoFactor: z.boolean().default(false).optional(),
     changeRole: z.enum(["ADMIN", "USER"]).default("USER").optional(),
