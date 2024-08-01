@@ -50,10 +50,10 @@ export default function SettingsPage() {
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
-      name: user?.name || "",
-      email: user?.email || "",
-      password: "",
-      confirmPassword: "",
+      name: user?.name || undefined,
+      email: user?.email || undefined,
+      password: undefined,
+      confirmPassword: undefined,
       changeRole: user?.role || "USER",
       enableTwoFactor: user?.isTwoFactorEnabled || false,
     },
@@ -80,60 +80,54 @@ export default function SettingsPage() {
           }
 
           if (response.success) {
+            update();
             setMessage({
               type: "success",
               text: response.success,
             });
           }
         })
-        .finally(() => {
-          update();
+        .catch((error) => {
+          console.error(error);
+          setMessage({
+            type: "error",
+            text: "An error occurred while updating your settings.",
+          });
         });
     });
   };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
-      <Card className="min-w-[500px]">
+      <Card className={`${!user?.isOAuth ? "max-w-6xl" : "max-w-[550px]"}`}>
         <CardHeader>
           <CardTitle className="text-5xl font-black">Settings Page</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSumbit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Name"
-                        type="text"
-                        disabled={isPending}
-                        className="h-11 disabled:cursor-wait"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {!user?.isOAuth && (
-                <>
+            <form onSubmit={form.handleSubmit(onSumbit)}>
+              <div
+                className={`${
+                  !user?.isOAuth ? "lg:flex lg:items-center lg:gap-6" : ""
+                } mb-6 space-y-4`}
+              >
+                <div
+                  className={`${
+                    !user?.isOAuth ? "lg:w-[400px]" : ""
+                  } space-y-4`}
+                >
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Name</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Email"
+                            placeholder="Name"
                             type="text"
                             disabled={isPending}
-                            className="h-11 disabled:cursor-wait"
+                            className="h-11 disabled:cursor-wait w-full"
                             {...field}
                           />
                         </FormControl>
@@ -141,98 +135,128 @@ export default function SettingsPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="••••••"
-                            type="password"
-                            disabled={isPending}
-                            className="h-11 disabled:cursor-wait"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm password</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="••••••"
-                            type="password"
-                            disabled={isPending}
-                            className="h-11 disabled:cursor-wait"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
-
-              <FormField
-                control={form.control}
-                name="enableTwoFactor"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <div className="space-y-0.5">
-                      <FormLabel>Two-Factor Authentication</FormLabel>
-                      <FormDescription>
-                        Protect your account with an extra verification step.
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
+                  {!user?.isOAuth && (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Email"
+                                type="text"
+                                disabled={isPending}
+                                className="h-11 disabled:cursor-wait w-full"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="changeRole"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <div className="space-y-0.5">
-                      <FormLabel>User Role</FormLabel>
-                      <FormDescription>
-                        Your current role is {user?.role}. Change it to{" "}
-                        {user?.role === "ADMIN" ? "USER" : "ADMIN"} if needed.
-                      </FormDescription>
-                    </div>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl className="w-fit">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="USER">USER</SelectItem>
-                        <SelectItem value="ADMIN">ADMIN</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="••••••"
+                                type="password"
+                                disabled={isPending}
+                                className="h-11 disabled:cursor-wait w-full"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirm password</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="••••••"
+                                type="password"
+                                disabled={isPending}
+                                className="h-11 disabled:cursor-wait w-full"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
+                </div>
+                <div
+                  className={`${
+                    !user?.isOAuth ? "lg:w-[400px]" : ""
+                  } space-y-4`}
+                >
+                  <FormField
+                    control={form.control}
+                    name="enableTwoFactor"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Two-Factor Authentication</FormLabel>
+                          <FormDescription>
+                            Protect your account with an extra verification
+                            step.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            disabled={user?.isOAuth}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="changeRole"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>User Role</FormLabel>
+                          <FormDescription className="pr-2">
+                            Your current role is {user?.role}. Change it to{" "}
+                            {user?.role === "ADMIN" ? "USER" : "ADMIN"} if
+                            needed.
+                          </FormDescription>
+                        </div>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl className="w-fit">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="USER">USER</SelectItem>
+                            <SelectItem value="ADMIN">ADMIN</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
               <div className="space-y-4">
                 <FormError
                   message={message?.type === "error" ? message.text : ""}
