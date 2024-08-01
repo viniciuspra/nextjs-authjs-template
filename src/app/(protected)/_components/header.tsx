@@ -1,5 +1,3 @@
-"use client";
-
 import { HeaderSheet } from "@/app/(protected)/_components/header-sheet";
 import { HeaderNav } from "@/app/(protected)/_components/header-nav";
 import { UserButton } from "./user-button";
@@ -26,7 +24,7 @@ export function Header() {
             </div>
           </div>
           <nav className="flex items-center gap-3">
-            <UserButton/>
+            <UserButton />
           </nav>
         </div>
       </div>

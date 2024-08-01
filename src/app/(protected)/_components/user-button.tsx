@@ -1,3 +1,4 @@
+"use client"
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { LogoutButton } from "@/components/logout-button";

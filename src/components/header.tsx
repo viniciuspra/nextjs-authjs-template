@@ -1,5 +1,3 @@
-"use client";
-
 import { HeaderSheet } from "@/components/header-sheet";
 import { HeaderNav } from "@/components/header-nav";
 

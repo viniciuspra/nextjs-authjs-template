@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 
 import { NewPasswordForm } from "@/app/auth/_components/new-password-form";
