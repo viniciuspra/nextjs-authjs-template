@@ -1,18 +1,17 @@
 import { Resend } from "resend";
 
 import { EmailTemplate } from "@/components/email-template";
-import { env } from "@/configs/env";
 import { PasswordResetEmailTemplate } from "@/components/password-reset-email-template";
 import TwoFactorEmailTemplate from "@/components/two-factor-email-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 const sendVerificationEmail = async (
   email: string,
   token: string,
   name: string | null
 ) => {
-  const baseUrl = env.NEXT_PUBLIC_APP_URL;
   const confirmLink = `${baseUrl}/auth/new-verification?token=${token}`;
 
   try {
@@ -38,7 +37,6 @@ const sendRestPassword = async (
   token: string,
   name: string | null
 ) => {
-  const baseUrl = env.NEXT_PUBLIC_APP_URL;
   const resetLink = `${baseUrl}/auth/new-password?token=${token}`;
 
   try {
