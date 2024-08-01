@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "prisma generate",
+    "postinstall": "prisma generate",
     "db:push": "prisma db push",
     "migrate:dev": "prisma migrate dev",
     "studio": "prisma studio"
