@@ -60,20 +60,13 @@ export function RegisterForm() {
       ),
     });
     startTransition(() => {
-      register(data)
-        .then((response) => {
-          if (response.error) {
-            setMessage({ type: "error", text: response.error });
-          } else if (response.success) {
-            setMessage({ type: "success", text: response.success });
-          }
-        })
-        .finally(() => {
-          form.reset();
-          setTimeout(() => {
-            router.push("/auth/login");
-          }, 3000);
-        });
+      register(data).then((response) => {
+        if (response.error) {
+          setMessage({ type: "error", text: response.error });
+        } else if (response.success) {
+          setMessage({ type: "success", text: response.success });
+        }
+      });
     });
   };
 
