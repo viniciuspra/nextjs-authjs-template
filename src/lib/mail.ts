@@ -16,9 +16,9 @@ const sendVerificationEmail = async (
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "PlanejaKids <onboarding@resend.dev>",
       to: email,
-      subject: "Confirm Your Email",
+      subject: "Confirme seu email",
       react: EmailTemplate(confirmLink, name),
     });
 
@@ -41,7 +41,7 @@ const sendRestPassword = async (
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "PlanejaKids <onboarding@resend.dev>",
       to: email,
       subject: "Reset Your Password",
       react: PasswordResetEmailTemplate(resetLink, name),
@@ -60,7 +60,7 @@ const sendRestPassword = async (
 const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: "PlanejaKids <onboarding@resend.dev>",
       to: email,
       subject: "Two Factor Authentication",
       react: TwoFactorEmailTemplate(token),

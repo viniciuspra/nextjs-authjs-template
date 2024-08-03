@@ -21,7 +21,7 @@ export const register = async (
   const validatedFields = RegisterSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields" };
+    return { error: "Campos inválidos" };
   }
 
   const { name, email, password } = validatedFields.data;
@@ -31,7 +31,7 @@ export const register = async (
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
-    return { error: "Email already in use" };
+    return { error: "Email já está em uso" };
   }
 
   await prisma.user.create({
@@ -50,5 +50,8 @@ export const register = async (
     name
   );
 
-  return { success: "Confirmation email sent! Please check your inbox." };
+  return {
+    success:
+      "Email de confirmação enviado! Por favor, verifique sua caixa de entrada.",
+  };
 };

@@ -22,7 +22,7 @@ export const login = async (
   const validatedFields = LoginSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields" };
+    return { error: "Campos inválidos" };
   }
 
   const { email, password, code } = validatedFields.data;
@@ -31,7 +31,7 @@ export const login = async (
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return {
-      error: "Account not found or created using a different method.",
+      error: "Conta não encontrada ou criada por outro método.",
     };
   }
 
@@ -46,7 +46,7 @@ export const login = async (
 
     return {
       success:
-        "Email not verified. A new confirmation email has been sent. Please check your inbox.",
+        "Email não verificado. Um novo email de confirmação foi enviado. Por favor, verifique sua caixa de entrada.",
     };
   }
 
@@ -55,17 +55,17 @@ export const login = async (
       const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
 
       if (!twoFactorToken) {
-        return { error: "Invalid code" };
+        return { error: "Código inválido" };
       }
 
       if (twoFactorToken?.token !== code) {
-        return { error: "Invalid code" };
+        return { error: "Código inválido" };
       }
 
       const hasExpires = new Date(twoFactorToken.expiresAt) < new Date();
 
       if (hasExpires) {
-        return { error: "Code expired!" };
+        return { error: "Código expirado!" };
       }
 
       await prisma.twoFactorToken.delete({
@@ -105,13 +105,13 @@ export const login = async (
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credentials" };
+          return { error: "Credenciais inválidas" };
         case "CallbackRouteError":
-          return { error: "Invalid credentials" };
+          return { error: "Credenciais inválidas" };
         case "AccessDenied":
-          return { error: "Access Denied" };
+          return { error: "Acesso negado" };
         default:
-          return { error: "Something went wrong" };
+          return { error: "Algo deu errado" };
       }
     }
     throw error;

@@ -20,7 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 import { forgotPassword } from "@/actions/forgot-password";
@@ -44,14 +43,7 @@ export function ForgotPasswordForm() {
 
   const onSubmit = (data: z.infer<typeof ForgotPasswordSchema>) => {
     setMessage(undefined);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-muted p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+
     startTransition(() => {
       forgotPassword(data).then((response) => {
         if (response?.error) {

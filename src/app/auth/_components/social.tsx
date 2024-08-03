@@ -18,9 +18,10 @@ export function Social() {
   return (
     <div className="flex items-center gap-3">
       <Button
+        variant={"outline"}
         type="button"
         onClick={() => onClick("google")}
-        className="w-full h-10 focus-visible:ring-black border font-bold border-secondary/20 hover:bg-zinc-100 transition duration-150"
+        className="w-full h-10 focus-visible:ring-black border font-bold hover:bg-zinc-100 transition duration-150 border-black/30"
       >
         <Image
           src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -31,9 +32,10 @@ export function Social() {
         />
       </Button>
       <Button
+        variant={"outline"}
         type="button"
         onClick={() => onClick("facebook")}
-        className="w-full h-10 focus-visible:ring-black border font-bold border-secondary/20 hover:bg-zinc-100 transition duration-150"
+        className="w-full h-10 focus-visible:ring-black border font-bold hover:bg-zinc-100 transition duration-150 border-black/30"
       >
         <Image
           src="https://www.svgrepo.com/show/448224/facebook.svg"

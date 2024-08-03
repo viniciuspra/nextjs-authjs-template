@@ -1,14 +1,20 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AuthButtons } from "./auth-butons";
 
 interface NavProps {
   mobile?: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  open?: boolean;
 }
 
-export function HeaderNav({ mobile, setOpen }: NavProps) {
+export function HeaderNav({ mobile, setOpen, open }: NavProps) {
+  const pathname = usePathname();
+
   const LinkStyle =
-    "inline-flex h-8 px-3 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors text-primary underline-offset-4 hover:underline";
+    "inline-flex h-7 px-1 items-center justify-center whitespace-nowrap text-sm transition-colors";
+
   const closeSheet = () => {
     if (mobile) {
       if (setOpen) {
@@ -18,35 +24,61 @@ export function HeaderNav({ mobile, setOpen }: NavProps) {
   };
 
   return (
-    <nav
-      className={`${
-        !mobile ? "lg:flex items-center hidden" : "flex flex-col"
-      } w-full`}
-    >
-      <Link href="/auth/login" className={LinkStyle} onClick={closeSheet}>
-        Login
-      </Link>
+    <div className={`${open && "flex-col items-center"} flex gap-4`}>
+      <nav
+        className={`${
+          !mobile
+            ? "lg:flex items-center hidden justify-end w-full"
+            : "flex flex-col mb-10 w-fit"
+        } gap-3`}
+      >
+        <Link
+          href="/"
+          className={`${LinkStyle} ${
+            pathname === "/"
+              ? "font-bold border-b-2 border-secondary"
+              : "font-medium underline-offset-4 hover:underline"
+          }`}
+          onClick={closeSheet}
+        >
+          Página Inicial
+        </Link>
 
-      <Link href="/auth/register" className={LinkStyle} onClick={closeSheet}>
-        Register
-      </Link>
-      <Link href="/auth/login" className={LinkStyle} onClick={closeSheet}>
-        Two factor verification (2FA)
-      </Link>
-      <Link
-        href="/auth/forgot-password"
-        className={LinkStyle}
-        onClick={closeSheet}
-      >
-        Forgot password
-      </Link>
-      <Link
-        href="api/auth/providers"
-        className={LinkStyle}
-        onClick={closeSheet}
-      >
-        Providers
-      </Link>
-    </nav>
+        <Link
+          href="/produtos"
+          className={`${LinkStyle} ${
+            pathname === "/produtos"
+              ? "font-bold border-b-2 border-secondary"
+              : "font-medium underline-offset-4 hover:underline"
+          }`}
+          onClick={closeSheet}
+        >
+          Produtos
+        </Link>
+        <Link
+          href="/sobre"
+          className={`${LinkStyle} ${
+            pathname === "/sobre"
+              ? "font-bold border-b-2 border-secondary"
+              : "font-medium underline-offset-4 hover:underline"
+          }`}
+          onClick={closeSheet}
+        >
+          Sobre
+        </Link>
+        <Link
+          href="/contato"
+          className={`${LinkStyle} ${
+            pathname === "/contato"
+              ? "font-bold border-b-2 border-secondary"
+              : "font-medium underline-offset-4 hover:underline"
+          }`}
+          onClick={closeSheet}
+        >
+          Contato
+        </Link>
+      </nav>
+      <AuthButtons />
+    </div>
   );
 }

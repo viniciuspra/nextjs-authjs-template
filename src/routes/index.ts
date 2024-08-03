@@ -1,4 +1,10 @@
-const publicRoutes = ["/", "/auth/new-verification"];
+const publicRoutes = [
+  "/",
+  "/produtos",
+  "/sobre",
+  "/contato",
+  "/auth/new-verification",
+];
 const authRoutes = [
   "/auth/login",
   "/auth/register",

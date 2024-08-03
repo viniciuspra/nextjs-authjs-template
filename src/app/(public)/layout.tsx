@@ -1,15 +1,15 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.css";
-import { LoadingPage } from "@/components/loading-page";
+import "../globals.css";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Nextjs 14 Authentication Template",
-  description: "A authentication template created with Nextjs 14 and Authjs",
+  title: "PlanejaKids",
+  description: "Description",
 };
 
 export default function RootLayout({
@@ -18,9 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body className={inter.className}>
-        <Suspense fallback={<LoadingPage />}>{children}</Suspense>
+        <div className="container min-h-screen mx-auto max-w-screen-2xl">
+          <Header />
+          {children}
+          <Footer/>
+        </div>
         <Toaster />
       </body>
     </html>

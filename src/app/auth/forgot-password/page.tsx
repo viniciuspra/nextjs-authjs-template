@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ForgotPasswordForm } from "@/app/auth/_components/forgot-password-form";
 import {
   Card,
@@ -13,12 +12,6 @@ import { ArrowLeft } from "lucide-react";
 export default function ForgotPassword() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-3 text-primary-foreground p-4">
-      <Link
-        href="/"
-        className="text-sm text-primary hover:text-primary/90 flex gap-3 items-center"
-      >
-        <ArrowLeft /> Back to Home
-      </Link>
       <Card className="max-w-[450px] w-full max-h-[600px] bg-primary rounded-lg py-4 flex flex-col text-primary-foreground">
         <CardHeader className="py-0 pt-4">
           <CardTitle className="text-3xl font-bold">

@@ -25,7 +25,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 import { login } from "@/actions/login";
@@ -64,25 +63,6 @@ export function LoginForm({ showTwoFactor, setShowTwoFactor }: LoginFormProps) {
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
     setMessage(undefined);
-
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-muted p-4">
-          {data.code ? (
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          ) : (
-            <code className="text-white">
-              {JSON.stringify(
-                { email: data.email, password: data.password },
-                null,
-                2
-              )}
-            </code>
-          )}
-        </pre>
-      ),
-    });
 
     startTransition(() => {
       login(data, callbackUrl)
@@ -140,7 +120,7 @@ export function LoginForm({ showTwoFactor, setShowTwoFactor }: LoginFormProps) {
                   <FormLabel>E-mail</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="name@provider.com"
+                      placeholder="nome@exemplo.com"
                       type="email"
                       disabled={isPending}
                       className="h-11 disabled:cursor-wait"
@@ -157,7 +137,7 @@ export function LoginForm({ showTwoFactor, setShowTwoFactor }: LoginFormProps) {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Senha</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="••••••"
@@ -177,7 +157,7 @@ export function LoginForm({ showTwoFactor, setShowTwoFactor }: LoginFormProps) {
                           href="/auth/forgot-password"
                           className="w-full h-full"
                         >
-                          Forgot Password?
+                          Esqueceu sua senha?
                         </Link>
                       </Button>
                     </div>
@@ -199,7 +179,6 @@ export function LoginForm({ showTwoFactor, setShowTwoFactor }: LoginFormProps) {
           <Button
             type="submit"
             disabled={isPending}
-            variant={"secondary"}
             className="w-full h-11 disabled:opacity-50 disabled:cursor-wait font-semibold"
           >
             {isPending ? (

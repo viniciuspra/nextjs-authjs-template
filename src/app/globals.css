@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 33 66% 90%;
+    --foreground: 0 0% 12%; /* Preto */
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 33 66% 90%;
+    --card-foreground: 0 0% 12%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 33 66% 90%;
+    --popover-foreground: 0 0% 12%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 31 76% 75%; /* Peach */
+    --primary-foreground: 0 0% 12%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 117 43% 66%; /* Mint */
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 117 20% 84%; /* Um tom mais claro do secundário */
+    --muted-foreground: 117 43% 66%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 117 43% 66%; /* Igual ao secundário */
+    --accent-foreground: 0 0% 12%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 359 100% 65%;
+    --destructive-foreground: 359 100% 65%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 117 43% 66%;
+    --input: 117 43% 66%; /* Mesmo tom do muted */
+    --ring: 33 66% 90%; /* Igual ao background */
 
     --radius: 0.5rem;
   }
@@ -41,7 +41,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-black-gradient text-foreground;
+    @apply bg-background text-foreground;
   }
 }
 

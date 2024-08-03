@@ -53,14 +53,13 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      backgroundImage: {
-        "black-gradient":
-          "linear-gradient(rgb(26, 27, 28) 0%, rgb(17, 18, 19) 40%, rgb(8, 8, 8) 100%)",
-      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        "cta-pattern": "url('/cta-pattern.svg')",
       },
       boxShadow: {
         shape:

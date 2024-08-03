@@ -21,11 +21,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
 import { register } from "@/actions/register";
-import { useRouter } from "next/navigation";
 
 export function RegisterForm() {
   const [message, setMessage] = useState<
@@ -47,18 +45,9 @@ export function RegisterForm() {
     },
   });
 
-  const router = useRouter();
-
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
     setMessage(undefined);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-muted p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+
     startTransition(() => {
       register(data).then((response) => {
         if (response.error) {
@@ -79,7 +68,7 @@ export function RegisterForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel>Nome completo</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John Doe"
@@ -101,7 +90,7 @@ export function RegisterForm() {
                 <FormLabel>E-mail</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="name@provider.com"
+                    placeholder="nome@exemplo.com"
                     type="email"
                     disabled={isPending}
                     className="h-11 disabled:cursor-wait"
@@ -117,7 +106,7 @@ export function RegisterForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="••••••"
@@ -136,7 +125,7 @@ export function RegisterForm() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel>Confirme a senha</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="••••••"
@@ -160,7 +149,6 @@ export function RegisterForm() {
           <Button
             type="submit"
             disabled={isPending}
-            variant={"secondary"}
             className="w-full h-11 font-semibold"
           >
             {isPending ? <LoadingSpinner /> : "Register"}

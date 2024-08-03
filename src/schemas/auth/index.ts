@@ -1,65 +1,65 @@
 import { z } from "zod";
 
 const LoginSchema = z.object({
-  email: z.string().email({ message: "Email is required" }),
-  password: z.string().min(1, { message: "Password is required" }),
+  email: z.string().email({ message: "Email é obrigatório" }),
+  password: z.string().min(1, { message: "Senha é obrigatória" }),
   code: z.optional(z.string()),
 });
 
 const ForgotPasswordSchema = z.object({
-  email: z.string().email({ message: "Email is required" }),
+  email: z.string().email({ message: "Email é obrigatório" }),
 });
 
 const NewPasswordSchema = z
   .object({
     newPassword: z.string().min(6, {
-      message: "New password should be at least 6 characters long",
+      message: "A nova senha deve ter pelo menos 6 caracteres",
     }),
     confirmPassword: z.string().min(1, {
-      message: "Confirm new password is required",
+      message: "Confirmação da nova senha é obrigatória",
     }),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
 
 const RegisterSchema = z
   .object({
-    name: z.string().min(1, { message: "Name is required" }),
-    email: z.string().email({ message: "Email is required" }),
+    name: z.string().min(1, { message: "Nome é obrigatório" }),
+    email: z.string().email({ message: "Email é obrigatório" }),
     password: z
       .string()
-      .min(6, { message: "Password should be at least 6 characters long" }),
+      .min(6, { message: "A senha deve ter pelo menos 6 caracteres" }),
     confirmPassword: z.string().min(1, {
-      message: "Confirm password is required",
+      message: "Confirmação de senha é obrigatória",
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
 
 const SettingsSchema = z
   .object({
-    name: z.optional(z.string().min(1, { message: "Name can't be empty" })),
+    name: z.optional(
+      z.string().min(1, { message: "Nome não pode estar vazio" })
+    ),
     email: z.optional(
       z
         .string()
-        .email({ message: "Email is not valid" })
-        .min(1, { message: "Email can't be empty" })
+        .email({ message: "Email inválido" })
+        .min(1, { message: "Email não pode estar vazio" })
     ),
     password: z.optional(
-      z
-        .string()
-        .min(6, { message: "Password should be at least 6 characters long" })
+      z.string().min(6, { message: "A senha deve ter pelo menos 6 caracteres" })
     ),
     confirmPassword: z.optional(z.string()),
     enableTwoFactor: z.boolean().default(false).optional(),
     changeRole: z.enum(["ADMIN", "USER"]).default("USER").optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords does not match",
+    message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
 
