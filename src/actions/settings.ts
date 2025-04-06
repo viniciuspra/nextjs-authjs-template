@@ -49,7 +49,7 @@ export const settings = async (data: z.infer<typeof SettingsSchema>) => {
     await sendVerificationEmail(
       verificationToken.email,
       verificationToken.token,
-      dbUser.name
+      dbUser.name,
     );
 
     return { success: "Confirmation email sent! Please check your inbox." };

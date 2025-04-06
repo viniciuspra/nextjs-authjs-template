@@ -9,6 +9,15 @@ import Facebook from "next-auth/providers/facebook";
 import { LoginSchema } from "@/schemas/auth";
 import { getUserByEmail } from "@/data/user";
 
+/**
+ * Auth.js provider configuration
+ *
+ * This file configures the authentication providers:
+ * - OAuth providers (Google, Facebook, GitHub)
+ * - Credentials provider for email/password login
+ *
+ * Additional providers like GitHub can be uncommented and configured as needed
+ */
 export default {
   providers: [
     // Github({
@@ -31,6 +40,7 @@ export default {
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
     Credentials({
+      // Validate credentials (email/password) during login
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
@@ -39,6 +49,7 @@ export default {
 
           const user = await getUserByEmail(email);
 
+          // User not found or has no password (OAuth user)
           if (!user || !user.password) {
             return null;
           }

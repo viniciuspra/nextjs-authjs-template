@@ -10,12 +10,22 @@ import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { getUserAccountByUserId } from "./data/account";
 
+/**
+ * Auth.js configuration with Prisma adapter and JWT session strategy
+ * This file sets up the main authentication functionality including:
+ * - Custom sign-in page
+ * - Error handling
+ * - Account linking
+ * - Two-factor authentication
+ * - Session and JWT callbacks
+ */
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
-    signIn: "/auth/login",
-    error: "/auth/error",
+    signIn: "/auth/login", // Custom sign-in page
+    error: "/auth/error", // Custom error page
   },
   events: {
+    // Automatically verify email when user links an OAuth account
     async linkAccount({ user }) {
       await prisma.user.update({
         where: { id: user.id },
@@ -24,7 +34,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
   callbacks: {
+    // Control whether a user can sign in
     async signIn({ user, account }) {
+      // Allow OAuth sign-in without additional verification
       if (account?.provider !== "credentials") {
         return true;
       }
@@ -33,17 +45,21 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       const existingUser = await getUserById(user.id);
 
+      // Prevent sign-in if email is not verified
       if (!existingUser?.emailVerified) {
         return false;
       }
 
+      // Handle two-factor authentication if enabled
       if (existingUser.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          user.id
+          user.id,
         );
 
+        // Prevent sign-in if 2FA is not confirmed
         if (!twoFactorConfirmation) return false;
 
+        // Clean up the 2FA confirmation after successful verification
         await prisma.twoFactorConfirmation.delete({
           where: { id: twoFactorConfirmation.id },
         });
@@ -51,6 +67,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       return true;
     },
+    // Customize session object with user data
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
@@ -72,6 +89,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       return session;
     },
+    // Customize JWT token with user data
     async jwt({ token }) {
       if (!token.sub) return token;
 
@@ -90,7 +108,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return token;
     },
   },
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
-  ...authConfig,
+  adapter: PrismaAdapter(prisma), // Use Prisma adapter for database integration
+  session: { strategy: "jwt" }, // Use JWT for session management
+  ...authConfig, // Import additional configuration
 });
