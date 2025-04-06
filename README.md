@@ -5,11 +5,14 @@ A ready-to-use authentication template built with [Next.js 14](https://nextjs.or
 [![GitHub stars](https://img.shields.io/github/stars/viniciuspra/nextjs-authjs-template?style=social)](https://github.com/viniciuspra/nextjs-authjs-template/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> **Important Note:**  
-> - The Resend email service requires a verified custom domain for emails to function properly in production.  
+>[!IMPORTANT]  
+> The Resend email service requires a verified custom domain for emails to function properly in production.  
+>
+> You can access the demo here: [https://nextjs-authjs-template.vercel.app/](https://nextjs-authjs-template.vercel.app/)  
 > - **For testing purposes, use these credentials:**  
 >   - **Email:** user@example.com  
 >   - **Password:** 123456
+
 
 ---
 
@@ -187,7 +190,8 @@ export default {
   // ...other configuration options
 };
 ```
-For a full list of supported providers and additional configuration details, please refer to the [Auth.js documentation](https://authjs.dev/).
+> [!NOTE]
+> For a full list of supported providers and additional configuration details, please refer to the [Auth.js documentation](https://authjs.dev/).
 
 ### Modifying Routes
 You can customize your application’s routes by editing the `routes.ts` file. This file defines which routes are public, which routes are authentication-related, and where to redirect users after a successful login.
@@ -247,7 +251,8 @@ export const WelcomeEmailTemplate = ({ name }: { name: string }) => {
 
 export default WelcomeEmailTemplate;
 ```
-You can add any structure and styling supported by [@react-email/components](https://react.email/components).
+> [!TIP]
+> You can add any structure and styling supported by [@react-email/components](https://react.email/components).
 
 #### 2. Add a Function to Send the Email
 
@@ -285,7 +290,8 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
   }
 };
 ```
-You can adjust the props passed to your template depending on what content your email needs.
+> [!NOTE]
+> You can adjust the props passed to your template depending on what content your email needs.
 
 ---
 
